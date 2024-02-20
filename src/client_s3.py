@@ -8,8 +8,9 @@ load_dotenv()
 
 
 class S3:
-    def __init__(self, region, access_key, secret_key, bucket_name):
+    def __init__(self, region, endpoint_url, access_key, secret_key, bucket_name):
         self.region = region
+        self.endpoint_url = endpoint_url
         self.access_key = access_key
         self.secret_key = secret_key
         self.bucket_name = bucket_name
@@ -29,6 +30,7 @@ class S3:
         try:
             s3 = boto3.resource(
                 service_name='s3',
+                endpoint_url=self.endpoint_url,
                 region_name=self.region,
                 aws_access_key_id=self.access_key,
                 aws_secret_access_key=self.secret_key
@@ -139,6 +141,7 @@ def get_s3_instance():
     try:
         s3_instance = S3(
             region=os.getenv("S3_REGION"),
+            endpoint_url=os.getenv("S3_ENDPOINT_URL"),
             access_key=os.getenv("S3_ACCESS_KEY"),
             secret_key=os.getenv("S3_SECRET_KEY"),
             bucket_name=os.getenv("S3_BUCKET_NAME")
